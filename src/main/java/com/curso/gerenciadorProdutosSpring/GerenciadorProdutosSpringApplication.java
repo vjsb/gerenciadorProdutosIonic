@@ -1,5 +1,6 @@
 package com.curso.gerenciadorProdutosSpring;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,20 @@ import com.curso.gerenciadorProdutosSpring.domain.Cidade;
 import com.curso.gerenciadorProdutosSpring.domain.Cliente;
 import com.curso.gerenciadorProdutosSpring.domain.Endereco;
 import com.curso.gerenciadorProdutosSpring.domain.Estado;
+import com.curso.gerenciadorProdutosSpring.domain.Pagamento;
+import com.curso.gerenciadorProdutosSpring.domain.PagamentoBoleto;
+import com.curso.gerenciadorProdutosSpring.domain.PagamentoCartao;
+import com.curso.gerenciadorProdutosSpring.domain.Pedido;
 import com.curso.gerenciadorProdutosSpring.domain.Produto;
+import com.curso.gerenciadorProdutosSpring.domain.enums.EstadoPagamento;
 import com.curso.gerenciadorProdutosSpring.domain.enums.TipoCliente;
 import com.curso.gerenciadorProdutosSpring.repositories.CategoriaRepository;
 import com.curso.gerenciadorProdutosSpring.repositories.CidadeRepository;
 import com.curso.gerenciadorProdutosSpring.repositories.ClienteRepository;
 import com.curso.gerenciadorProdutosSpring.repositories.EnderecoRepository;
 import com.curso.gerenciadorProdutosSpring.repositories.EstadoRepository;
+import com.curso.gerenciadorProdutosSpring.repositories.PagamentoRepository;
+import com.curso.gerenciadorProdutosSpring.repositories.PedidoRepository;
 import com.curso.gerenciadorProdutosSpring.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -41,6 +49,12 @@ public class GerenciadorProdutosSpringApplication implements CommandLineRunner {
 	
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
+	
+	@Autowired
+	private PedidoRepository pedidoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(GerenciadorProdutosSpringApplication.class, args);
@@ -97,6 +111,21 @@ public class GerenciadorProdutosSpringApplication implements CommandLineRunner {
 		enderecoRepository.saveAll(Arrays.asList(e1, e2));
 		
 		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		
+		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, e1);
+		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), cli1, e2);
+		
+		Pagamento pagto1 = new PagamentoCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+		ped1.setPagamento(pagto1);
+		
+		Pagamento pagto2 = new PagamentoBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
+		ped2.setPagamento(pagto2);
+		
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+		
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
 
 	}
 
