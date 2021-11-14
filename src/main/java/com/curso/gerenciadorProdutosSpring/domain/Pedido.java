@@ -15,6 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Pedido implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -23,8 +26,10 @@ public class Pedido implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private Date instante;
 	
+	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
@@ -34,6 +39,7 @@ public class Pedido implements Serializable {
 	 * garante que o id do pagamento vai ser o mesmo id do pedido relacionado a ele
 	 * cascade serve para não dar erro quando for salvar um pedido e o pagamento dele
 	 */
+	@JsonManagedReference
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
 	private Pagamento pagamento;
 	

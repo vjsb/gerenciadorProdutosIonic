@@ -11,6 +11,7 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import com.curso.gerenciadorProdutosSpring.domain.enums.EstadoPagamento;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 
 /*
@@ -36,6 +37,7 @@ public abstract class Pagamento implements Serializable {
 	 * MapsId serve para garantir que o id do pagamento seja o mesmo que o do pedido
 	 * 
 	 */
+	@JsonBackReference
 	@OneToOne
 	@JoinColumn(name="pedido_id")
 	@MapsId
