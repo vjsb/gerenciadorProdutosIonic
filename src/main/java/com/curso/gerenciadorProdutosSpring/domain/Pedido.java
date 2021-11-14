@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -40,6 +41,7 @@ public class Pedido implements Serializable {
 	@JoinColumn(name = "endereco_id")
 	private Endereco enderecoEntrega;
 	
+	@OneToMany(mappedBy = "id.pedido")
 	private Set<ItemPedido> itens = new HashSet<>();
 	
 	public Pedido() {

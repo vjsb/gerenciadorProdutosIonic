@@ -2,10 +2,16 @@ package com.curso.gerenciadorProdutosSpring.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+
+@Entity
 public class ItemPedido implements Serializable {
 		private static final long serialVersionUID = 1L;
 
 	 //associação feita para ligar o pedido ao produto, conforme o diagrama
+	 //EmbeddedId por conta de ser um id embutido em um tipo auxiliar
+	 @EmbeddedId
 	 private ItemPedidoPK id = new ItemPedidoPK();
 	 
 	 private Double desconto;
