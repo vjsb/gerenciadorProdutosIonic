@@ -3,10 +3,12 @@ package com.curso.gerenciadorProdutosSpring.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.curso.gerenciadorProdutosSpring.domain.Categoria;
 import com.curso.gerenciadorProdutosSpring.repositories.CategoriaRepository;
+import com.curso.gerenciadorProdutosSpring.resources.exception.DataIntegrityException;
 
 import javassist.tools.rmi.ObjectNotFoundException;
 
@@ -36,4 +38,13 @@ public class CategoriaService {
 		return categoriaRepository.save(obj);
 	}
 	
+	public  void delete(Integer id) throws Exception {
+		find(id);
+		try {
+			categoriaRepository.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não é possivel excluir uma categoria que possui produtos");
+		}
+		
+	}
 }

@@ -27,6 +27,7 @@ public class CategoriaResource {
 		return ResponseEntity.ok(obj);
 	}
 	
+	
 	//requestBody faz o JSON ser convertido para objeto Java automaticamente
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@RequestBody Categoria obj){
@@ -36,6 +37,7 @@ public class CategoriaResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	
 	//recebe o PathVariable e o RequestBody por ter que pegar um objeto e atualiza-lo
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id) throws Exception{
@@ -44,5 +46,13 @@ public class CategoriaResource {
 		//quando se atualiza com sucesso retorna um 204(NoContent)
 		return ResponseEntity.noContent().build();
 	}
+	
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> delete (@PathVariable Integer id) throws Exception {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+	}
+	
 	
 }
