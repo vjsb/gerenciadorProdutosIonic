@@ -24,8 +24,15 @@ public class CategoriaService {
 		
 	}
 	
+	//save cria caso o obj não tenha id
 	public Categoria insert(Categoria obj) {
 		obj.setId(null);
+		return categoriaRepository.save(obj);
+	}
+	
+	//save quando ve que o obj possui id ele o atualiza
+	public Categoria update(Categoria obj) throws Exception {
+		find(obj.getId());
 		return categoriaRepository.save(obj);
 	}
 	

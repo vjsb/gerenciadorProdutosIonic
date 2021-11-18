@@ -22,7 +22,7 @@ public class CategoriaResource {
 	private CategoriaService service;
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) throws Exception {
+	public ResponseEntity<Categoria> find(@PathVariable Integer id) throws Exception {
 		Categoria obj = service.find(id);
 		return ResponseEntity.ok(obj);
 	}
@@ -34,6 +34,15 @@ public class CategoriaResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
+	}
+	
+	//recebe o PathVariable e o RequestBody por ter que pegar um objeto e atualiza-lo
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id) throws Exception{
+		obj.setId(id);
+		obj = service.update(obj);
+		//quando se atualiza com sucesso retorna um 204(NoContent)
+		return ResponseEntity.noContent().build();
 	}
 	
 }
