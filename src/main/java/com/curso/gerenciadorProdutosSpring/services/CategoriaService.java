@@ -1,5 +1,6 @@
 package com.curso.gerenciadorProdutosSpring.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class CategoriaService {
 	public Categoria insert(Categoria obj) {
 		obj.setId(null);
 		return categoriaRepository.save(obj);
-	}
+	} 
 	
 	//save quando ve que o obj possui id ele o atualiza
 	public Categoria update(Categoria obj) throws Exception {
@@ -47,4 +48,9 @@ public class CategoriaService {
 		}
 		
 	}
+	
+	public List<Categoria> findAll(){
+		return categoriaRepository.findAll();
+	}
+	
 }

@@ -1,6 +1,8 @@
 package com.curso.gerenciadorProdutosSpring.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.curso.gerenciadorProdutosSpring.domain.Categoria;
+import com.curso.gerenciadorProdutosSpring.dto.CategoriaDTO;
 import com.curso.gerenciadorProdutosSpring.services.CategoriaService;
 
 @RestController
@@ -52,6 +55,15 @@ public class CategoriaResource {
 	public ResponseEntity<Void> delete (@PathVariable Integer id) throws Exception {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
+	}
+	
+	//retorna todas as categorias, no caso DTO porque só queremos o id e o nome dels e não seus produtos
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<List<CategoriaDTO>> findAll() throws Exception {
+		List<Categoria> list = service.findAll();
+		//com essa lista convertemos uma lista de Categoria para CategoriaDTO
+		List<CategoriaDTO> listDto = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok(listDto);
 	}
 	
 	
