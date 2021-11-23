@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.curso.gerenciadorProdutosSpring.domain.Categoria;
+import com.curso.gerenciadorProdutosSpring.dto.CategoriaDTO;
 import com.curso.gerenciadorProdutosSpring.repositories.CategoriaRepository;
 import com.curso.gerenciadorProdutosSpring.resources.exception.DataIntegrityException;
 
@@ -62,6 +63,11 @@ public class CategoriaService {
 				orderBy);
 		return categoriaRepository.findAll(pageRequest);
 
+	}
+	
+	//método auxiliar que instancia uma Categoria a partir de um Dto
+	public Categoria fromDto(CategoriaDTO objDto) {
+		return new Categoria(objDto.getId(), objDto.getNome());
 	}
 	
 }
